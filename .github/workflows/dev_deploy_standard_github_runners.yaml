@@ -1,4 +1,4 @@
-name: Deploy ansible runners
+name: Deploy docker based runners
 
 on:
   workflow_dispatch:
