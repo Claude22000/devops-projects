@@ -60,11 +60,13 @@ jobs:
     needs: build
 
     steps:
-      - name: Configure AWS credentials
+
+
+      - name: Configure AWS credentials (OIDC)
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.ECR_IAM_ROLE }}
-          aws-region: ${{ secrets.AWS_REGION }}
+          aws-region: ${{ secrets.ECR_REGION }}
 
       - name: Login to ECR
         run: |
