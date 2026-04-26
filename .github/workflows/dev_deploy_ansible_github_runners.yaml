@@ -1,5 +1,6 @@
-name: Deploy to EKS
+name: Deploy ansible runners
 
+workflow_dispatch:
 on:
   push:
     branches:
@@ -23,10 +24,10 @@ jobs:
           role-to-assume: arn:aws:iam::676005808259:role/github-runners-administration
           aws-region: us-east-1
 
-      # - name: Login to ECR
-      #   run: |
-      #     aws ecr get-login-password --region us-east-1 \
-      #     | docker login --username AWS --password-stdin ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com
+      - name: Login to ECR
+        run: |
+          aws ecr get-login-password --region us-east-1 \
+          | docker login --username AWS --password-stdin 676005808259.dkr.ecr.us-east-1.amazonaws.com/devops-training
 
       # - name: Build Docker image
       #   run: |
