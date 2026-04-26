@@ -83,7 +83,7 @@ security_scan:
         image: ${{ secrets.ECR_REPO_URI }}:${{ github.sha }}
         args: --severity-threshold=high
 
-  deploy:
+deploy:
    runs-on: ubuntu-latest
    needs: [build, security_scan, test]
 
