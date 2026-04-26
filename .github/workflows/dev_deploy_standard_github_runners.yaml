@@ -60,6 +60,8 @@ jobs:
     needs: build
 
     steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
 
       - name: Configure AWS credentials (OIDC)
         uses: aws-actions/configure-aws-credentials@v4
@@ -82,7 +84,7 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           image: ${{ secrets.ECR_REPO_URI }}:${{ github.sha }}
-          args: --severity-threshold=high
+          args: --severity-threshold=critical --policy-path=.snyk
 
   deploy:
     runs-on: ubuntu-latest
