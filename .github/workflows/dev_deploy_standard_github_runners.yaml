@@ -36,11 +36,11 @@ jobs:
 
       - name: Tag image
         run: |
-          docker tag github-runners:${{ github.sha }} 676005808259.dkr.ecr.us-east-1.amazonaws.com/devops-training/github-runners:${{ github.sha }}
+          docker tag github-runners:${{ github.sha }} 676005808259.dkr.ecr.us-east-1.amazonaws.com/devops-training:${{ github.sha }}
 
       - name: Push image
         run: |
-          docker push 676005808259.dkr.ecr.us-east-1.amazonaws.com/devops-training/github-runners:${{ github.sha }}
+          docker push 676005808259.dkr.ecr.us-east-1.amazonaws.com/devops-training:${{ github.sha }}
 
       # - name: Update kubeconfig
       #   run: |
