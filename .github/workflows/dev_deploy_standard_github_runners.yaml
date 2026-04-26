@@ -4,6 +4,7 @@ on:
   workflow_dispatch:
   push:
     branches:
+      - 'feature/github-runners'
       - main
 
 permissions:
@@ -33,9 +34,9 @@ jobs:
         run: |
           docker build -t github-runners ./github-runners/Dockerfile
 
-      # - name: Tag image
-      #   run: |
-      #     docker tag github-runners:latest 676005808259.dkr.ecr.us-east-1.amazonaws.com/devops-training/github-runners:latest
+      - name: Tag image
+        run: |
+          docker tag github-runners:latest 676005808259.dkr.ecr.us-east-1.amazonaws.com/devops-training/github-runners:latest
 
       # - name: Push image
       #   run: |
