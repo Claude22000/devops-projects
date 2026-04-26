@@ -22,13 +22,13 @@ jobs:
       - name: Configure AWS credentials (OIDC)
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: arn:aws:iam::676005808259:role/github-runners-administration
+          role-to-assume: ${{ secrets.ECR_IAM_ROLE }}
           aws-region: us-east-1
 
       - name: Login to ECR
         run: |
           aws ecr get-login-password --region us-east-1 \
-          | docker login --username AWS --password-stdin 676005808259.dkr.ecr.us-east-1.amazonaws.com/devops-training
+          | docker login --username AWS --password-stdin ${{ secrets.ECR_REPO_URI }}
 
       - name: Build Docker image
         run: |
@@ -36,11 +36,11 @@ jobs:
 
       - name: Tag image
         run: |
-          docker tag github-runners:${{ github.sha }} 676005808259.dkr.ecr.us-east-1.amazonaws.com/devops-training:${{ github.sha }}
+          docker tag github-runners:${{ github.sha }} ${{ secrets.ECR_REPO_URI }}:${{ github.sha }}
 
       - name: Push image
         run: |
-          docker push 676005808259.dkr.ecr.us-east-1.amazonaws.com/devops-training:${{ github.sha }}
+          docker push ${{ secrets.ECR_REPO_URI }}:${{ github.sha }}
 
       # - name: Update kubeconfig
       #   run: |
