@@ -32,7 +32,9 @@ ignore:
         expires: 2026-12-31
 
   SNYK-JAVA-ORGBOUNCYCASTLE-16075260:
-    - '*'
+    - org.bouncycastle:bcpkix-jdk18on@1.79:
+        reason: "Android SDK build-tools dependency (not runtime reachable)"
+        expires: 2026-12-31
 
   SNYK-JAVA-ORGBOUNCYCASTLE-16074612:
     - '*':
