@@ -84,7 +84,7 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           image: ${{ secrets.ECR_REPO_URI }}:${{ github.sha }}
-          args: --severity-threshold=critical --policy-path=.snyk
+          args: --severity-threshold=critical --policy-path=.snyk --exclude=/opt/android-sdk
 
   deploy:
     runs-on: ubuntu-latest

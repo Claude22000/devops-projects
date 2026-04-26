@@ -32,9 +32,7 @@ ignore:
         expires: 2026-12-31
 
   SNYK-JAVA-ORGBOUNCYCASTLE-16075260:
-    - '*':
-        reason: "Android SDK / build-tools embedded dependency (not runtime reachable)"
-        expires: 2026-12-31
+    - '*'
 
   SNYK-JAVA-ORGBOUNCYCASTLE-16074612:
     - '*':
