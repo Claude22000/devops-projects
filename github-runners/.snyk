@@ -1,0 +1,47 @@
+version: v1.25.0
+
+ignore:
+  SNYK-JAVA-COMGOOGLEPROTOBUF-8055227:
+    - '*':
+        reason: "Bundled inside Android SDK / build-tools (non-runtime dependency)"
+        expires: 2026-12-31
+
+  SNYK-JS-BRACEEXPANSION-15789759:
+    - '*':
+        reason: "Transitive dependency of npm CLI used only in build context"
+        expires: 2026-12-31
+
+  SNYK-JS-CROSSSPAWN-8303230:
+    - '*':
+        reason: "npm CLI transitive dependency (build-time only)"
+        expires: 2026-12-31
+
+  SNYK-JS-GLOB-14040952:
+    - '*':
+        reason: "npm CLI dependency, not application runtime"
+        expires: 2026-12-31
+
+  SNYK-JS-MINIMATCH-15309438:
+    - '*':
+        reason: "npm internal dependency (tooling only)"
+        expires: 2026-12-31
+
+  SNYK-JS-TAR-15307072:
+    - '*':
+        reason: "npm packaging tool dependency, not runtime exposed"
+        expires: 2026-12-31
+
+  SNYK-JAVA-ORGBOUNCYCASTLE-16075260:
+    - '*':
+        reason: "Bundled in Android SDK / not directly reachable in runtime"
+        expires: 2026-12-31
+
+  SNYK-JAVA-ORGBOUNCYCASTLE-16074612:
+    - '*':
+        reason: "Crypto lib inside SDK toolchain"
+        expires: 2026-12-31
+
+  SNYK-JAVA-ORGBOUNCYCASTLE-16075266:
+    - '*':
+        reason: "Toolchain-only crypto dependency"
+        expires: 2026-12-31
