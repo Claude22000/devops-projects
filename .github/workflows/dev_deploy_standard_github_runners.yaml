@@ -1,7 +1,7 @@
 name: Deploy ansible runners
 
-workflow_dispatch:
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
@@ -29,17 +29,17 @@ jobs:
           aws ecr get-login-password --region us-east-1 \
           | docker login --username AWS --password-stdin 676005808259.dkr.ecr.us-east-1.amazonaws.com/devops-training
 
-      # - name: Build Docker image
-      #   run: |
-      #     docker build -t my-app .
+      - name: Build Docker image
+        run: |
+          docker build -t github-runners ./github-runners/Dockerfile
 
       # - name: Tag image
       #   run: |
-      #     docker tag my-app:latest ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/my-app:latest
+      #     docker tag github-runners:latest 676005808259.dkr.ecr.us-east-1.amazonaws.com/devops-training/github-runners:latest
 
       # - name: Push image
       #   run: |
-      #     docker push ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/my-app:latest
+      #     docker push 676005808259.dkr.ecr.us-east-1.amazonaws.com/devops-training/github-runners:latest
 
       # - name: Update kubeconfig
       #   run: |
