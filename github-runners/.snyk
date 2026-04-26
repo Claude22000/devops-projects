@@ -32,8 +32,8 @@ ignore:
         expires: 2026-12-31
 
   SNYK-JAVA-ORGBOUNCYCASTLE-16075260:
-    - '*':
-        reason: "Bundled in Android SDK / not directly reachable in runtime"
+    - org.bouncycastle:bcpkix-jdk18on@1.79:
+        reason: "Bundled inside Android SDK / build-tools, not reachable at runtime"
         expires: 2026-12-31
 
   SNYK-JAVA-ORGBOUNCYCASTLE-16074612:
