@@ -8,12 +8,11 @@ on:
       - main
 
 jobs:
-  test:
-    runs-on: gke-docker-runners
+  runs-on: gke-docker-runners
 
-    steps:
-      - name: Check runner
-        run: |
-          echo "Running inside GKE ARC runner"
-          uname -a
-          docker version
+  steps:
+    - name: Check runner
+      run: |
+        echo "Running inside GKE ARC runner"
+        uname -a
+        docker version
