@@ -182,7 +182,7 @@ template:
   spec:
     containers:
       - name: runner
-        image: us-west1-docker.pkg.dev/directed-sonar-474004-j3/github-runners/docker-runner:latest
+        image: us-west2-docker.pkg.dev/directed-sonar-474004-j3/github-runners/docker-runner:latest
         command: ["/home/runner/run.sh"]
 ```
 
