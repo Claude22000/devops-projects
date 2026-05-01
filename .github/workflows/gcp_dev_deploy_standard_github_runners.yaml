@@ -28,6 +28,10 @@ jobs:
 
       - name: Setup gcloud
         uses: google-github-actions/setup-gcloud@v3
+      
+      - name: Login to Artifact Registry
+        run: |
+          gcloud auth configure-docker us-west2-docker.pkg.dev
 
       - name: Build Docker image
         run: |
