@@ -36,13 +36,13 @@ jobs:
       - name: Build Docker image
         run: |
           docker build -t us-west2-docker.pkg.dev/directed-sonar-474004-j3/gcp-images-repo/github-runners:${{ github.sha }} -f github-runners/Dockerfile github-runners \
-          -t us-west2-docker.pkg.dev/directed-sonar-474004-j3/gcp-images-repo/github-runners:latest -f github-runners/Dockerfile github-runners
+          docker build -t us-west2-docker.pkg.dev/directed-sonar-474004-j3/gcp-images-repo/github-runners:latest -f github-runners/Dockerfile github-runners
 
 
 
       - name: Push image to artifact registry
         run: |
-          docker push us-west2-docker.pkg.dev/directed-sonar-474004-j3/gcp-images-repo/github-runners:${{ github.sha }}
+          docker push us-west2-docker.pkg.dev/directed-sonar-474004-j3/gcp-images-repo/github-runners:${{ github.sha }} \ 
           docker push us-west2-docker.pkg.dev/directed-sonar-474004-j3/gcp-images-repo/github-runners:latest
   deploy :
     runs-on: ubuntu-latest
