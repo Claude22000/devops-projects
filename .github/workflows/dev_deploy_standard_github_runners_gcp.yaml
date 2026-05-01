@@ -13,6 +13,10 @@ permissions:
 
 jobs:
   build :
+    env:    
+      GCP_WORKLOAD_IDENTITY_PROVIDER: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+      GCP_SERVICE_ACCOUNT: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+    
     runs-on: ubuntu-latest
 
     steps:
