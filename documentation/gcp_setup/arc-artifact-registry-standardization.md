@@ -144,7 +144,21 @@ gcloud artifacts repositories add-iam-policy-binding github-runners \
 
 If this fails, you may need roles/artifactregistry.reader permission.
 
-If the runner image is pushed by GitHub Actions or another CI process, that identity needs:
+If the runner image is pushed by GitHub Actions or another CI process, that identity needs or you may have to check your workload identities
+
+![alt text](image.png)
+
+gcloud iam service-accounts add-iam-policy-binding \
+  458232171789-compute@developer.gserviceaccount.com \
+  --project=directed-sonar-474004-j3 \
+  --role="roles/iam.workloadIdentityUser" \
+  --member="principalSet://iam.googleapis.com/projects/458232171789/locations/global/workloadIdentityPools/id-identity-group/attribute.custom_attribute/Claude22000/github-runners"
+
+  gcloud iam service-accounts add-iam-policy-binding \
+  458232171789-compute@developer.gserviceaccount.com \
+  --project=directed-sonar-474004-j3 \
+  --role="roles/iam.serviceAccountTokenCreator" \
+  --member="principalSet://iam.googleapis.com/projects/458232171789/locations/global/workloadIdentityPools/id-identity-group/attribute.custom_attribute/Claude22000/github-runners"
 
 ```text
 roles/artifactregistry.writer
