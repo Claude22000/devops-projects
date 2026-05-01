@@ -607,7 +607,7 @@ arc-runner-values.yaml
 Content:
 
 ```yaml
-githubConfigUrl: "https://github.com/Claude22000/Begotten-III-optimization-and-refactor-private"
+githubConfigUrl: "https://github.com/Claude22000/github-runners"
 githubConfigSecret: github-pat-secret
 
 minRunners: 0
