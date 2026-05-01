@@ -1,5 +1,7 @@
 FROM ghcr.io/actions/actions-runner:latest
 
+USER root
+
 ENV DEBIAN_FRONTEND=noninteractive
 
 # ---------------------------
@@ -31,5 +33,7 @@ RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
 # Final workspace
 # ---------------------------
 WORKDIR /workspace
+
+USER runner
 
 CMD ["bash"]
