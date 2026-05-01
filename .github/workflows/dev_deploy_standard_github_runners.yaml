@@ -1,4 +1,4 @@
-name: Deploy docker based runners
+name: Deploy AWS docker based runners
 
 on:
   workflow_dispatch:
