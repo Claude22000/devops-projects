@@ -2,6 +2,10 @@ name: Test GKE ARC Runner
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - 'feature/github-runners'
+      - main
 
 jobs:
   test:
