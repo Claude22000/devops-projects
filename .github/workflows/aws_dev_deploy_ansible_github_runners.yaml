@@ -69,7 +69,7 @@ jobs:
       
       - name: Terraform deploy infra
         run: |
-          cd github-runners-aws/github-runners-ansible-aws/terraform
+          cd github-runners-aws/github-runners-ansible-aws/terraform/environments/dev
           terraform init 
           terraform plan
           terraform apply \
