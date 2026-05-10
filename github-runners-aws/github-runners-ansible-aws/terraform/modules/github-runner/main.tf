@@ -7,9 +7,8 @@ terraform {
 }
 
 data "aws_secretsmanager_secret" "github_pat" {
-  name = "GITHUB_RUNNERS_PUBLIC_KEY"
+  name = "github_pat"
 }
-
 data "aws_secretsmanager_secret_version" "github_pat" {
   secret_id = data.aws_secretsmanager_secret.github_pat.id
 }
