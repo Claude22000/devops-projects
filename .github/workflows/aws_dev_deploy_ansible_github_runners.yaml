@@ -27,7 +27,7 @@ jobs:
 
       - name: Setup ansible
         run:
-          sudo apt-get update
+          sudo apt-get update \
           sudo apt-get install -y ansible
 
       - name: Setup packer
