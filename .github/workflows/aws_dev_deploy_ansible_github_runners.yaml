@@ -23,6 +23,7 @@ jobs:
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.PACKER_IAM_ROLE }}
+          aws-region: us-east-1
 
       - name: Setup ansible
         run: |
