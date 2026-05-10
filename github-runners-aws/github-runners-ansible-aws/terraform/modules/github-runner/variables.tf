@@ -7,8 +7,3 @@ variable "instance_type" {
 variable "runner_count" {
   type = number
 }
-
-variable "security_group_id" {
-  description = "The security group ID for the GitHub Runner instances"
-  type        = string
-}

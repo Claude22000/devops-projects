@@ -7,7 +7,6 @@ module "github_runner" {
   source = "../../modules/github-runner"
   instance_type      = var.instance_type
   runner_count       = var.runner_count
-  security_group_id  = module.network.security_group_id
 }
 
 data "aws_caller_identity" "current" {}
