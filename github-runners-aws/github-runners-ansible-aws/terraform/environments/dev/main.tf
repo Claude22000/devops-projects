@@ -1,7 +1,4 @@
 
-module "network" {
-  source = "../../modules/network"
-}
 
 module "github_runner" {
   source = "../../modules/github-runner"
