@@ -33,13 +33,15 @@ jobs:
       - name: Setup packer
         uses: hashicorp/setup-packer@v3.2.0
 
-      - name: Get GitHub Actions IP ranges
+      - name: Get GitHub Actions IPv4 ranges
         run: |
           curl -s https://api.github.com/meta \
-            | jq -r '.actions | map("\"" + . + "\"") | join(",")' \
+            | jq -r '.actions | map(select(test(":") | not)) | map("\"" + . + "\"") | join(",")' \
             > github_actions_cidrs.txt
 
           echo "github_actions_cidrs = [$(cat github_actions_cidrs.txt)]" > cidrs.pkrvars.hcl
+
+          cat cidrs.pkrvars.hcl
 
       - name: Build AMI with packer
         run: |
