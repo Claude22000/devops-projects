@@ -20,7 +20,7 @@ variable "aws_region" {
 
 source "amazon-ebs" "github_runner" {
   region        = var.aws_region
-  instance_type = "t2.medium"
+  instance_type = "t3.micro"
   subnet_id     = "subnet-072eb424eebedf6e9"
 
   associate_public_ip_address = true
@@ -29,6 +29,13 @@ source "amazon-ebs" "github_runner" {
 
   ssh_username = "ec2-user"
   ami_name     = "github-runner-base-{{timestamp}}"
+
+  launch_block_device_mappings {
+    device_name           = "/dev/xvda"
+    volume_size           = 30
+    volume_type           = "gp3"
+    delete_on_termination = true
+  }
 
   source_ami_filter {
     filters = {
