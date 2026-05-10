@@ -18,7 +18,7 @@ variable "aws_region" {
 source "amazon-ebs" "github_runner" {
   region        = var.aws_region
   instance_type = "t3.micro"
-  subnet_id     = "subnet-0a68ace70934ab625"
+  subnet_id     = "subnet-072eb424eebedf6e9"
   source_ami_filter {
     filters = {
       name                = "amzn2-ami-hvm-*-x86_64-gp2"
