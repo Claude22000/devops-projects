@@ -4,7 +4,6 @@ on:
   workflow_dispatch:
   push:
     branches:
-      - 'feature/github-runners'
       - main
 
 permissions:
@@ -32,7 +31,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t github-runners:${{ github.sha }} -f github-runners/Dockerfile github-runners
+          docker build -t github-runners:${{ github.sha }} -f github-runners/github-runners-standard/Dockerfile github-runners
 
       - name: Tag image
         run: |
@@ -99,7 +98,4 @@ jobs:
         with:
           role-to-assume: ${{ secrets.ECR_IAM_ROLE }}
           aws-region: ${{ secrets.ECR_REGION }}
-
-      - name: Deploy to EKS
-        run: |
-          echo "Deploying to EKS cluster..."
+      

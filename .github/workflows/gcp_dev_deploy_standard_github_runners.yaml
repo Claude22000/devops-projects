@@ -38,9 +38,9 @@ jobs:
           docker build \
             -t us-west2-docker.pkg.dev/directed-sonar-474004-j3/gcp-images-repo/github-runners:${{ github.sha }} \
             -t us-west2-docker.pkg.dev/directed-sonar-474004-j3/gcp-images-repo/github-runners:latest \
-            -f github-runners/Dockerfile \
+            -f github-runners/github-runners-standard/Dockerfile \
             github-runners
-            
+
       - name: Push image to artifact registry
         run: |
           docker push us-west2-docker.pkg.dev/directed-sonar-474004-j3/gcp-images-repo/github-runners:${{ github.sha }}
@@ -63,6 +63,10 @@ jobs:
       - name: Setup gcloud
         uses: google-github-actions/setup-gcloud@v3
 
-      - name: Deploy with kubectl
+      - name: Deploy with Helm
         run: |
-          kubectl apply -f k8s/
+          helm upgrade --install github-runners ./k8s/helm/github-runners \
+            -f k8s/helm/github-runners/github-runners-standard/values.yaml \
+            --namespace github-runners-standard-dev \
+            --create-namespace \
+            --wait
