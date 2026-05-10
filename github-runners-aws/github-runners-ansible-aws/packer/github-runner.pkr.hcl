@@ -32,7 +32,7 @@ source "amazon-ebs" "github_runner" {
 
   source_ami_filter {
     filters = {
-      name                = "amzn2-ami-hvm-*-x86_64-gp2"
+      name                = "al2023-ami-*-x86_64"
       root-device-type    = "ebs"
       virtualization-type = "hvm"
     }
