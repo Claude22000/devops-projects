@@ -22,18 +22,30 @@ data "aws_subnets" "default" {
   }
 }
 
+
+
 # here we use a key pair for the GitHub Runner instances stored in AWS Secrets Manager
 data "aws_key_pair" "github_runner_key" {
   key_name   = "github-runner-key"
   public_key = trimspace(data.aws_secretsmanager_secret_version.github_pat.secret_string)
 }
 
+data "aws_ami" "github_runner" {
+  most_recent = true
+  owners      = ["self"]
+
+  filter {
+    name   = "name"
+    values = ["github-runner-al2023-*"]
+  }
+}
+
 resource "aws_instance" "github_runner" {
   count = var.runner_count
   # here we pass the variables from .tfvars
-  ami           = var.ami
+  ami           = data.aws_ami.github_runner.id
   instance_type = var.instance_type
-  subnet_id     = data.aws_subnets.default.ids[count.index % length(data.aws_subnets.default.ids)]
+  subnet_id     = "subnet-072eb424eebedf6e9"
   key_name      = data.aws_key_pair.github_runner_key.key_name
   # in here we pass in user data script to install GitHub Runner and register it with the GitHub repository
   user_data     = templatefile("${path.module}/install_github_runner.sh", {
