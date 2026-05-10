@@ -11,9 +11,3 @@ variable "instance_type" {
 variable "runner_count" {
   type = number
 }
-
-variable "datadog_external_id" {
-  description = "External ID required by Datadog when assuming the AWS integration role"
-  type        = string
-  default     = "datadog-external-id"
-}

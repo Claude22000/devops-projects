@@ -1,0 +1,24 @@
+githubConfigUrl: "https://github.com/Claude22000/github-runners"
+githubConfigSecret: github-pat-secret
+
+minRunners: 1
+maxRunners: 5
+
+containerMode:
+  type: "dind"
+
+template:
+  spec:
+    containers:
+      - name: runner
+        image: us-west1-docker.pkg.dev/directed-sonar-474004-j3/gcp-images-repo/docker-runner:latest
+        command: ["/home/runner/run.sh"]
+        resources:
+          requests:
+            cpu: "1000m"
+            memory: "2Gi"
+            ephemeral-storage: "8Gi"
+          limits:
+            cpu: "1"
+            memory: "2Gi"
+            ephemeral-storage: "10Gi"

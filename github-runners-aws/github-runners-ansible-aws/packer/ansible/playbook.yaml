@@ -1,0 +1,53 @@
+---
+- name: Configure GitHub Runner AMI
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Update packages
+      yum:
+        name: "*"
+        state: latest
+
+    - name: Install dependencies
+      yum:
+        name:
+          - git
+          - curl
+          - unzip
+          - jq
+          - docker
+        state: present
+
+    - name: Enable Docker
+      systemd:
+        name: docker
+        enabled: true
+        state: started
+
+    - name: Add ec2-user to docker group
+      user:
+        name: ec2-user
+        groups: docker
+        append: true
+
+    - name: Create runner directory
+      file:
+        path: /opt/actions-runner
+        state: directory
+        owner: ec2-user
+        group: ec2-user
+        mode: "0755"
+
+    - name: Download GitHub Actions runner
+      get_url:
+        url: https://github.com/actions/runner/releases/download/v2.323.0/actions-runner-linux-x64-2.323.0.tar.gz
+        dest: /tmp/actions-runner.tar.gz
+
+    - name: Extract GitHub Actions runner
+      unarchive:
+        src: /tmp/actions-runner.tar.gz
+        dest: /opt/actions-runner
+        remote_src: true
+        owner: ec2-user
+        group: ec2-user
