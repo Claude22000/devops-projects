@@ -31,7 +31,8 @@ source "amazon-ebs" "github_runner" {
   }
 
   ssh_username = "ec2-user"
-
+  associate_public_ip_address = true
+  temporary_security_group_source_cidrs = ["0.0.0.0/0"]
   ami_name = "github-runner-base-{{timestamp}}"
 
   tags = {

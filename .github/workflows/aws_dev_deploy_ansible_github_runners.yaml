@@ -1,4 +1,4 @@
-name: Deploy AWS ansible based runners
+name: Deploy AWS Ansible based runners
 
 on:
   workflow_dispatch:
@@ -62,7 +62,10 @@ jobs:
           cd github-runners-aws/github-runners-ansible-aws/terraform
           terraform init 
           terraform plan
-          terraform apply
+          terraform apply \
+          -var="runner_count=5" \
+          -var="ami=ami-0abc123456789" \
+          -var="instance_type=t3.medium"
 
       - name: Deploy to EKS
         run: |
