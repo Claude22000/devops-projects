@@ -22,11 +22,12 @@ data "aws_subnets" "default" {
   }
 }
 
-
-# here we use a key pair for the GitHub Runner instances stored in AWS Secrets Manager
 data "aws_key_pair" "github_runner_key" {
-  key_name   = "github-runner-key"
-  public_key = trimspace(data.aws_secretsmanager_secret_version.github_pat.secret_string)
+  filter {
+    name   = "key-name"
+    values = ["packer_*"]
+  }
+
 }
 
 data "aws_ami" "github_runner" {
