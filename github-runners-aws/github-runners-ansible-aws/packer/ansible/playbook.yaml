@@ -9,11 +9,16 @@
         name: "*"
         state: latest
 
+    - name: Replace curl-minimal with curl
+      dnf:
+        name:
+          - curl-minimal
+        state: absent
+
     - name: Install dependencies
       yum:
         name:
           - git
-          - curl
           - unzip
           - jq
           - docker
