@@ -1,9 +1,5 @@
 # modules/github-runner/variables.tf
 
-variable "ami" {
-  type = string
-}
-
 variable "instance_type" {
   type = string
 }
