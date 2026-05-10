@@ -3,11 +3,6 @@ terraform {
     aws = {
       source = "hashicorp/aws"
     }
-
-    tls = {
-      source  = "hashicorp/tls"
-      version = "~> 4.0"
-    }
   }
 }
 
@@ -45,41 +40,27 @@ data "aws_ami" "github_runner" {
   }
 }
 
-resource "tls_private_key" "github_runner_key" {
-  algorithm = "RSA"
-  rsa_bits  = 4096
+data "aws_key_pair" "github_runner_key" {
+  key_name = "github-runner-key-v2"
 }
 
-resource "aws_key_pair" "github_runner_key" {
-  key_name   = "github-runner-key-v2"
-  public_key = tls_private_key.github_runner_key.public_key_openssh
-
-  tags = {
-    version = "latest"
-  }
+data "aws_secretsmanager_secret" "github_runner_private_key" {
+  name = "github-runner-private-key-v2"
 }
 
-resource "aws_secretsmanager_secret" "github_runner_private_key" {
-  name                    = "github-runner-private-key-v2"
-  recovery_window_in_days = 0
-}
-
-resource "aws_secretsmanager_secret_version" "github_runner_private_key" {
-  secret_id     = aws_secretsmanager_secret.github_runner_private_key.id
-  secret_string = tls_private_key.github_runner_key.private_key_pem
+data "aws_secretsmanager_secret_version" "github_runner_private_key" {
+  secret_id = data.aws_secretsmanager_secret.github_runner_private_key.id
 }
 
 resource "aws_instance" "github_runner" {
   count = var.runner_count
 
-  ami           = data.aws_ami.github_runner.id
-  instance_type = var.instance_type
-
-  subnet_id = "subnet-072eb424eebedf6e9"
-
+  ami                         = data.aws_ami.github_runner.id
+  instance_type               = var.instance_type
+  subnet_id                   = "subnet-072eb424eebedf6e9"
   associate_public_ip_address = true
 
-  key_name = aws_key_pair.github_runner_key.key_name
+  key_name = data.aws_key_pair.github_runner_key.key_name
 
   vpc_security_group_ids = [
     data.aws_security_group.github_runner_sg.id
