@@ -72,9 +72,7 @@ jobs:
           cd github-runners-aws/github-runners-ansible-aws/terraform/environments/dev
           terraform init 
           terraform plan
-          terraform apply \
-          -var="runner_count=5" \
-          -var="instance_type=t3.medium"
+          terraform apply -var="runner_count=5" -var="instance_type=t3.medium"
 
       - name: Deploy to EKS
         run: |
