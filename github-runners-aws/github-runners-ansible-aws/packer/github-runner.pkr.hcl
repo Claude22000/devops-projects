@@ -20,7 +20,7 @@ variable "aws_region" {
 
 source "amazon-ebs" "github_runner" {
   region        = var.aws_region
-  instance_type = "t3.micro"
+  instance_type = "t2.medium"
   subnet_id     = "subnet-072eb424eebedf6e9"
 
   associate_public_ip_address = true
