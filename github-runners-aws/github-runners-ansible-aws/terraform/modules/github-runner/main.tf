@@ -51,7 +51,7 @@ resource "tls_private_key" "github_runner_key" {
 }
 
 resource "aws_key_pair" "github_runner_key" {
-  key_name   = "github-runner-key"
+  key_name   = "github-runner-key-v2"
   public_key = tls_private_key.github_runner_key.public_key_openssh
 
   tags = {
@@ -60,7 +60,7 @@ resource "aws_key_pair" "github_runner_key" {
 }
 
 resource "aws_secretsmanager_secret" "github_runner_private_key" {
-  name                    = "github-runner-private-key"
+  name                    = "github-runner-private-key-v2"
   recovery_window_in_days = 0
 }
 
