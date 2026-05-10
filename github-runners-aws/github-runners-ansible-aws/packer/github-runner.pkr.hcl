@@ -14,9 +14,9 @@ packer {
 variable "aws_region" {
   default = "us-east-1"
 }
-variable "github_actions_cidrs" {
-  type = list(string)
-}
+# variable "github_actions_cidrs" {
+#   type = list(string)
+# }
 
 source "amazon-ebs" "github_runner" {
   region        = var.aws_region
