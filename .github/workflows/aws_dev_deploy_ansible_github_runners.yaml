@@ -45,8 +45,8 @@ jobs:
         run: |
           cd github-runners-aws/github-runners-ansible-aws/packer
           packer init .
-          packer validate github-runner.pkr.hcl
-          packer build github-runner.pkr.hcl -var-file=cidrs.pkrvars.hcl .
+          packer validate -var-file=../../../cidrs.pkrvars.hcl github-runner.pkr.hcl
+          packer build -var-file=../../../cidrs.pkrvars.hcl github-runner.pkr.hcl
 
   deploy:
     runs-on: ubuntu-latest
