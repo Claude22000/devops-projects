@@ -35,7 +35,7 @@ jobs:
 
       - name: Build AMI with packer
         run: |
-          cd github-runners-aws/github-runners-ansible-aws/terraform/environments/dev
+          cd github-runners-aws/github-runners-ansible-aws/packer/github-runner.pkr.hcl
           packer init .
           packer validate github-runner.pkr.hcl
           packer build github-runner.pkr.hcl
