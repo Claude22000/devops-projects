@@ -17,6 +17,10 @@ sonarqube/dev/.terraform/
 github-runners-gcp/github-runners-ansible-gcp/terraform/modules/github-runner/.env
 github-runners-gcp/github-runners-ansible-gcp/terraform/modules/github-runner/github_runner_key
 github-runners-gcp/github-runners-ansible-gcp/terraform/modules/github-runner/github_runner_key.pub
+github-runners-aws/github-runners-ansible-aws/terraform/modules/github-runner/github_runner_key
+github-runners-aws/github-runners-ansible-aws/terraform/modules/github-runner/github_runner_key.pub
+github-runners-aws/github-runners-ansible-aws/terraform/modules/github-runner/.env
+
 
 # PEM / SSH Keys
 *.pem
