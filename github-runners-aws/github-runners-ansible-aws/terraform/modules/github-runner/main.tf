@@ -25,10 +25,8 @@ data "aws_subnets" "default" {
 data "aws_key_pair" "github_runner_key" {
   filter {
     name   = "tag:version"
-    
     values = ["latest"]
   }
-
 }
 
 data "aws_ami" "github_runner" {
@@ -37,7 +35,7 @@ data "aws_ami" "github_runner" {
 
   filter {
     name   = "name"
-    values = ["github-runner-al2023-*"]
+    values = ["github-runner-base-*"]
   }
 }
 
