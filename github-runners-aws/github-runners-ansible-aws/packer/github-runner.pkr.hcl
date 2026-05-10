@@ -14,11 +14,22 @@ packer {
 variable "aws_region" {
   default = "us-east-1"
 }
+variable "github_actions_cidrs" {
+  type = list(string)
+}
 
 source "amazon-ebs" "github_runner" {
   region        = var.aws_region
   instance_type = "t3.micro"
   subnet_id     = "subnet-072eb424eebedf6e9"
+
+  associate_public_ip_address = true
+
+  temporary_security_group_source_cidrs = var.github_actions_cidrs
+
+  ssh_username = "ec2-user"
+  ami_name     = "github-runner-base-{{timestamp}}"
+
   source_ami_filter {
     filters = {
       name                = "amzn2-ami-hvm-*-x86_64-gp2"
@@ -29,11 +40,6 @@ source "amazon-ebs" "github_runner" {
     owners      = ["amazon"]
     most_recent = true
   }
-
-  ssh_username = "ec2-user"
-  associate_public_ip_address = true
-  temporary_security_group_source_cidrs = ["0.0.0.0/0"]
-  ami_name = "github-runner-base-{{timestamp}}"
 
   tags = {
     Name        = "github-runner-base"
