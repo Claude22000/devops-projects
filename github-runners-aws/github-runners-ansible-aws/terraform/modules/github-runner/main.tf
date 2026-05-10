@@ -39,6 +39,11 @@ data "aws_ami" "github_runner" {
   }
 }
 
+data "aws_security_group" "github_runner_sg" {
+  name        = "github-runner-sg"
+  vpc_id = data.aws_vpc.default.id
+}
+
 resource "aws_instance" "github_runner" {
   count = var.runner_count
   # here we pass the variables from .tfvars
@@ -57,8 +62,8 @@ resource "aws_instance" "github_runner" {
     RUNNER_USER     = "github-runner"
     RUNNER_DIR      = "/opt/actions-runner"
   })
-  vpc_security_group_ids = [var.security_group_id]
-                
+  vpc_security_group_ids = [data.aws_security_group.github_runner_sg.id]
+
   tags = {
     Name = "GitHub Runner"
   }
