@@ -24,8 +24,9 @@ data "aws_subnets" "default" {
 
 data "aws_key_pair" "github_runner_key" {
   filter {
-    name   = "key-name"
-    values = ["packer_*"]
+    name   = "tag:version"
+    
+    values = ["latest"]
   }
 
 }
