@@ -5,11 +5,11 @@ on:
   push:
     branches:
       - main
+      - feature/github-runners
 
 jobs:
   test:
-    runs-on: gke-docker-runners
-
+    runs-on: standard
     steps:
       - name: Check runner
         run: |
