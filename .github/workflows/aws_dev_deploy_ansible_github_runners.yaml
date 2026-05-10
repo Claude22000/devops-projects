@@ -22,8 +22,7 @@ jobs:
       - name: Configure AWS credentials (OIDC)
         uses: aws-actions/configure-aws-credentials@v4
         with:
-          role-to-assume: ${{ secrets.ECR_IAM_ROLE }}
-          aws-region: ${{ secrets.ECR_REGION }}
+          role-to-assume: ${{ secrets.PACKER_IAM_ROLE }}
 
       - name: Setup ansible
         run: |
