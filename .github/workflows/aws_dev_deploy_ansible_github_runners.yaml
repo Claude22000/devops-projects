@@ -33,22 +33,22 @@ jobs:
       - name: Setup packer
         uses: hashicorp/setup-packer@v3.2.0
 
-      - name: Get GitHub Actions IPv4 ranges
-        run: |
-          curl -s https://api.github.com/meta \
-            | jq -r '.actions | map(select(test(":") | not)) | map("\"" + . + "\"") | join(",")' \
-            > github_actions_cidrs.txt
+      # - name: Get GitHub Actions IPv4 ranges
+      #   run: |
+      #     curl -s https://api.github.com/meta \
+      #       | jq -r '.actions | map(select(test(":") | not)) | map("\"" + . + "\"") | join(",")' \
+      #       > github_actions_cidrs.txt
 
-          echo "github_actions_cidrs = [$(cat github_actions_cidrs.txt)]" > cidrs.pkrvars.hcl
+      #     echo "github_actions_cidrs = [$(cat github_actions_cidrs.txt)]" > cidrs.pkrvars.hcl
 
-          cat cidrs.pkrvars.hcl
+      #     cat cidrs.pkrvars.hcl
 
       - name: Build AMI with packer
         run: |
           cd github-runners-aws/github-runners-ansible-aws/packer
           packer init .
-          packer validate -var-file=../../../cidrs.pkrvars.hcl github-runner.pkr.hcl
-          packer build -var-file=../../../cidrs.pkrvars.hcl github-runner.pkr.hcl
+          packer validate github-runner.pkr.hcl
+          packer build github-runner.pkr.hcl
 
   deploy:
     runs-on: ubuntu-latest

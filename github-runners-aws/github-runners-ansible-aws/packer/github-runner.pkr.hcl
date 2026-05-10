@@ -24,8 +24,8 @@ source "amazon-ebs" "github_runner" {
   subnet_id     = "subnet-072eb424eebedf6e9"
 
   associate_public_ip_address = true
-
-  temporary_security_group_source_cidrs = var.github_actions_cidrs
+  temporary_security_group_source_cidrs = ["0.0.0.0/0"]
+  # temporary_security_group_source_cidrs = var.github_actions_cidrs
 
   ssh_username = "ec2-user"
   ami_name     = "github-runner-base-{{timestamp}}"
