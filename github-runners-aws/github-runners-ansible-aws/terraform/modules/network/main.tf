@@ -11,7 +11,6 @@ data "aws_subnets" "default" {
 
 data "aws_security_group" "github_runner_sg" {
   name        = "github-runner-sg"
-  description = "Security group for GitHub Runner"
   vpc_id = data.aws_vpc.default.id
 }
 
