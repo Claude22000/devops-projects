@@ -1,6 +1,5 @@
 name: Deploy AWS ansible based runners
 
-
 on:
   workflow_dispatch:
   push:
