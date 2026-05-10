@@ -58,9 +58,10 @@ jobs:
         uses: hashicorp/setup-terraform@v1
       
       - name: Terraform deploy infra
-        run: 
-          cd ../../github-runners-aws/github-runners-ansible-aws/terraform
+        run: |
+          cd github-runners-aws/github-runners-ansible-aws/terraform
           terraform init 
+          terraform plan
           terraform apply
 
       - name: Deploy to EKS
