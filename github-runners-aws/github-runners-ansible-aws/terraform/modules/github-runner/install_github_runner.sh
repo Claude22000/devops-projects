@@ -21,7 +21,9 @@ if command -v apt-get >/dev/null 2>&1; then
   apt-get install -y curl jq tar sudo git libicu-dev libssl-dev zlib1g krb5-user
 elif command -v dnf >/dev/null 2>&1; then
   dnf update -y
-  dnf install -y curl jq tar sudo git libicu openssl-libs krb5-libs zlib
+  dnf install -y jq tar sudo git docker libicu openssl-libs krb5-libs zlib
+  systemctl enable docker
+  systemctl start docker
 elif command -v yum >/dev/null 2>&1; then
   yum update -y
   yum install -y curl jq tar sudo git libicu openssl-libs krb5-libs zlib
