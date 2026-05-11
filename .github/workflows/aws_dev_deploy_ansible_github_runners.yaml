@@ -5,7 +5,6 @@ on:
   push:
     branches:
       - main
-      - feature/github-runners
 
 permissions:
   id-token: write
@@ -32,16 +31,6 @@ jobs:
 
       - name: Setup packer
         uses: hashicorp/setup-packer@v3.2.0
-
-      # - name: Get GitHub Actions IPv4 ranges
-      #   run: |
-      #     curl -s https://api.github.com/meta \
-      #       | jq -r '.actions | map(select(test(":") | not)) | map("\"" + . + "\"") | join(",")' \
-      #       > github_actions_cidrs.txt
-
-      #     echo "github_actions_cidrs = [$(cat github_actions_cidrs.txt)]" > cidrs.pkrvars.hcl
-
-      #     cat cidrs.pkrvars.hcl
 
       - name: Build AMI with packer
         run: |
@@ -73,7 +62,3 @@ jobs:
           terraform init 
           terraform plan  -var="runner_count=5" -var="instance_type=t3.medium" 
           terraform apply -var="runner_count=5" -var="instance_type=t3.medium" --auto-approve
-
-      - name: Deploy to EKS
-        run: |
-          echo "Deploying to EKS cluster..."
