@@ -12,7 +12,6 @@
     - name: Install dependencies
       dnf:
         name:
-          - curl
           - git
           - unzip
           - jq
