@@ -5,23 +5,24 @@
 
   tasks:
     - name: Update packages
-      yum:
+      dnf:
         name: "*"
         state: latest
 
-    - name: Replace curl-minimal with curl
+    - name: Install dependencies
       dnf:
         name:
-          - curl-minimal
-        state: absent
-
-    - name: Install dependencies
-      yum:
-        name:
+          - curl
           - git
           - unzip
           - jq
+          - tar
+          - sudo
           - docker
+          - libicu
+          - openssl-libs
+          - krb5-libs
+          - zlib
         state: present
 
     - name: Enable Docker
@@ -30,9 +31,11 @@
         enabled: true
         state: started
 
-    - name: Add ec2-user to docker group
+    - name: Create github-runner user
       user:
-        name: ec2-user
+        name: github-runner
+        shell: /bin/bash
+        create_home: true
         groups: docker
         append: true
 
@@ -40,19 +43,6 @@
       file:
         path: /opt/actions-runner
         state: directory
-        owner: ec2-user
-        group: ec2-user
+        owner: github-runner
+        group: github-runner
         mode: "0755"
-
-    - name: Download GitHub Actions runner
-      get_url:
-        url: https://github.com/actions/runner/releases/download/v2.323.0/actions-runner-linux-x64-2.323.0.tar.gz
-        dest: /tmp/actions-runner.tar.gz
-
-    - name: Extract GitHub Actions runner
-      unarchive:
-        src: /tmp/actions-runner.tar.gz
-        dest: /opt/actions-runner
-        remote_src: true
-        owner: ec2-user
-        group: ec2-user
