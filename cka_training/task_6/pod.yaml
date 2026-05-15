@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: restricted-pod
+  namespace: restricted-ns
+spec:
+  securityContext:
+    runAsNonRoot: true
+  containers:
+  - name: restricted-pod
+    image: registry.k8s.io/pause:3.8
+    securityContext:
+      seccompProfile:
+        type: RuntimeDefault
+      runAsNonRoot: True
+      allowPrivilegeEscalation: False
+      capabilities:
+        drop: 
+          - ALL
