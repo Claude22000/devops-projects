@@ -1,6 +1,7 @@
-name: Deploy to EKS
+name: Deploy ansible runners
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main

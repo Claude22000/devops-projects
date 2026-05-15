@@ -1,0 +1,14 @@
+# Copy this file to terraform.tfvars and populate the values.
+
+# Subnet for the SonarQube EC2 instance (must be in the same VPC as the security group).
+subnet_id = "subnet-0123456789abcdef0"
+
+# Subnets for the RDS DB subnet group. Provide at least one subnet ID in the VPC.
+db_subnet_ids = [
+  "subnet-0123456789abcdef0",
+  "subnet-0fedcba9876543210",
+]
+
+# RDS credentials
+db_username = "admin"
+db_password = "admin"

@@ -1,0 +1,47 @@
+---
+- name: Configure GitHub Runner AMI
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Update packages
+      dnf:
+        name: "*"
+        state: latest
+
+    - name: Install dependencies
+      dnf:
+        name:
+          - git
+          - unzip
+          - jq
+          - tar
+          - sudo
+          - docker
+          - libicu
+          - openssl-libs
+          - krb5-libs
+          - zlib
+        state: present
+
+    - name: Enable Docker
+      systemd:
+        name: docker
+        enabled: true
+        state: started
+
+    - name: Create github-runner user
+      user:
+        name: github-runner
+        shell: /bin/bash
+        create_home: true
+        groups: docker
+        append: true
+
+    - name: Create runner directory
+      file:
+        path: /opt/actions-runner
+        state: directory
+        owner: github-runner
+        group: github-runner
+        mode: "0755"

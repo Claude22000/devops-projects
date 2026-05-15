@@ -1,0 +1,17 @@
+name: Test GKE ARC Runner
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+jobs:
+  test:
+    runs-on: standard
+    steps:
+      - name: Check runner
+        run: |
+          echo "Running inside GKE ARC runner"
+          uname -a
+          docker version
