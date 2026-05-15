@@ -3,7 +3,6 @@ name: Deploy AWS docker based runners
 on:
   workflow_dispatch:
 
-
 permissions:
   id-token: write
   contents: read
@@ -29,7 +28,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker build -t github-runners:${{ github.sha }} -f github-runners/github-runners-standard/Dockerfile github-runners
+          docker build -t github-runners:${{ github.sha }} -f github-runners-aws/github-runners-standard/Dockerfile github-runners
 
       - name: Tag image
         run: |

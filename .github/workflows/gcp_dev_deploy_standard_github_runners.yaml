@@ -35,7 +35,7 @@ jobs:
           docker build \
             -t us-west2-docker.pkg.dev/directed-sonar-474004-j3/gcp-images-repo/github-runners:${{ github.sha }} \
             -t us-west2-docker.pkg.dev/directed-sonar-474004-j3/gcp-images-repo/github-runners:latest \
-            -f github-runners/github-runners-standard/Dockerfile \
+            -f github-runners-aws/github-runners-standard/Dockerfile \
             github-runners
 
       - name: Push image to artifact registry
