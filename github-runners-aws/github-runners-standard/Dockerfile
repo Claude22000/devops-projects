@@ -4,9 +4,6 @@ USER root
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-# ---------------------------
-# Basic dependencies
-# ---------------------------
 RUN apt-get update && apt-get install -y --no-install-recommends \
     curl \
     unzip \
@@ -19,9 +16,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# ---------------------------
-# Node.js
-# ---------------------------
 RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get update \
     && apt-get install -y --no-install-recommends nodejs \
@@ -29,9 +23,6 @@ RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
-# ---------------------------
-# Final workspace
-# ---------------------------
 WORKDIR /workspace
 
 USER runner
