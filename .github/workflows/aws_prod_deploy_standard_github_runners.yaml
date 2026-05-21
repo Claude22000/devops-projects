@@ -15,11 +15,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Configure AWS credentials (OIDC)
-        uses: aws-actions/configure-aws-credentials@v4
-        with:
-          role-to-assume: arn:aws:iam::676005808259:role/github-runners-administration
-          aws-region: us-east-1
+
 
       # - name: Login to ECR
       #   run: |
