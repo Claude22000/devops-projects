@@ -26,6 +26,11 @@ jobs:
           role-to-assume: ${{ secrets.ECR_IAM_ROLE }}
           aws-region: ${{ secrets.ECR_REGION }}
 
+      - name: Login to ECR
+        run: |
+          aws ecr get-login-password --region ${{ secrets.ECR_REGION }} \
+          | docker login --username AWS --password-stdin ${{ secrets.ECR_REPO_URI }}
+
       - name: Build Docker image
         run: |
           docker build \
