@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   build:
-    runs-on: standard
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repo
@@ -67,3 +67,4 @@ jobs:
           cd emr-simulation/back-end
           source .venv/bin/activate
           python manage.py runserver
+
