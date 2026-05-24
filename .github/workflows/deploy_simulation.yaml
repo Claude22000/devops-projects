@@ -52,7 +52,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: feature/github-runners
-          path: emr-simulation
 
       - name: Activate virtual environment 
         run: |
