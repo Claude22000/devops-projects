@@ -6,6 +6,10 @@ on:
     branches:
       - feature/github-runners
 
+permissions:
+  id-token: write
+  contents: read
+
 jobs:
   build:
     runs-on: standard
