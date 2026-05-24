@@ -19,18 +19,12 @@ jobs:
         uses: actions/checkout@v4
         with:
           ref: feature/github-runners
-          path: emr-simulation
 
       - name: Configure AWS credentials (OIDC)
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.ECR_IAM_ROLE }}
           aws-region: ${{ secrets.ECR_REGION }}
-      
-      - name: Debug directories
-        run: |
-          ls -la emr-simulation
-          ls -la emr-simulation/back-end
 
       - name: Build Docker image
         run: |
