@@ -24,6 +24,7 @@ github-runners-aws/github-runners-ansible-aws/terraform/modules/github-runner/.e
 
 # emr paths
 emr-simulation/back-end/simulation/.venv
+emr-simulation/back-end/.venv
 emr-simulation/back-end/db.sqlite3
 
 

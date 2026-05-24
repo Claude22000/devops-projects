@@ -53,21 +53,15 @@ jobs:
         with:
           ref: feature/github-runners
 
-      - name: Activate virtual environment 
+      - name: Activate virtual environment & install dependencies
         run: |
           cd emr-simulation/back-end
           python -m venv .venv
           source .venv/bin/activate
-      
-      - name: Install dependencies
-        run: |
-          cd emr-simulation/back-end
-          source .venv/bin/activate
-          pip install -r requirements.txt
+          python -m pip install -r .\requirements.txt
 
       - name: Run simulation
         run: |
-          cd emr-simulation/back-end
-          source .venv/bin/activate
-          python manage.py runserver
+          cd emr-simulation/back-end/
+          python -m simulation.run_simulation
 

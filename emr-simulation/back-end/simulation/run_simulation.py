@@ -1,4 +1,4 @@
-from model import RespiratoryDiseaseModel
+from simulation.model import RespiratoryDiseaseModel
 
 
 def main():
