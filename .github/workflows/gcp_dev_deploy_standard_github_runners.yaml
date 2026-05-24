@@ -3,7 +3,6 @@ name: Deploy GCP docker based runners
 on:
   workflow_dispatch:
 
-
 permissions:
   id-token: write
   contents: read

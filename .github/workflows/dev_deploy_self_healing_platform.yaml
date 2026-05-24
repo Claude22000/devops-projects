@@ -1,0 +1,106 @@
+name: Deploy EKS Self-Healing Platform
+
+on:
+  push:
+    branches:
+      - main
+
+env:
+  AWS_REGION: us-east-1
+  CLUSTER_NAME: self-healing-eks
+  AWS_ACCOUNT_ID: 676005808259
+  APP_REPO: demo-api
+  SELF_HEALER_REPO: self-healer
+
+jobs:
+  setup-infrastructure:
+    runs-on: ubuntu-latest
+
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials with OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.S3_ROLE_TERRAFORM }}
+          aws-region: ${{ secrets.S3_REGION }}
+
+      - name: Terraform init
+        run: |
+          cd eks-self-healing-platform/terraform
+          terraform init
+
+      - name: Terraform apply
+        run: |
+          cd eks-self-healing-platform/terraform
+          terraform apply -auto-approve
+
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    needs: setup-infrastructure
+
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Configure AWS credentials with OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.ECR_IAM_ROLE }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to ECR
+        run: |
+          aws ecr get-login-password --region $AWS_REGION \
+          | docker login \
+            --username AWS \
+            --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com
+
+      - name: Build and push app image
+        run: |
+          docker build -t $APP_REPO:latest eks-self-healing-platform/app
+          docker tag $APP_REPO:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$APP_REPO:${{ github.sha }}
+          docker tag $APP_REPO:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$APP_REPO:latest
+          docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$APP_REPO:${{ github.sha }}
+          docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$APP_REPO:latest
+
+      - name: Build and push self-healer image
+        run: |
+          docker build -t $SELF_HEALER_REPO:latest eks-self-healing-platform/self-healer
+          docker tag $SELF_HEALER_REPO:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$SELF_HEALER_REPO:${{ github.sha }}
+          docker tag $SELF_HEALER_REPO:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$SELF_HEALER_REPO:latest
+          docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$SELF_HEALER_REPO:${{ github.sha }}
+          docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$SELF_HEALER_REPO:latest
+
+      - name: Update kubeconfig
+        run: |
+          aws eks update-kubeconfig \
+            --region $AWS_REGION \
+            --name $CLUSTER_NAME
+
+      - name: Replace image placeholders
+        run: |
+          sed -i "s|ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/demo-api:latest|$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$APP_REPO:${{ github.sha }}|g" eks-self-healing-platform/k8s/deployment.yaml
+          sed -i "s|ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com/self-healer:latest|$AWS_ACCOUNT_ID.dkr.ecr.$AWS_REGION.amazonaws.com/$SELF_HEALER_REPO:${{ github.sha }}|g" eks-self-healing-platform/k8s/self-healer-cronjob.yaml
+
+      - name: Deploy Kubernetes resources
+        run: |
+          kubectl apply -f eks-self-healing-platform/k8s/namespace.yaml
+          kubectl apply -f eks-self-healing-platform/k8s/deployment.yaml
+          kubectl apply -f eks-self-healing-platform/k8s/service.yaml
+          kubectl apply -f eks-self-healing-platform/k8s/hpa.yaml
+          kubectl apply -f eks-self-healing-platform/k8s/rbac.yaml
+          kubectl apply -f eks-self-healing-platform/k8s/self-healer-cronjob.yaml
+
+      - name: Restart app deployment
+        run: |
+          kubectl rollout restart deployment/demo-api -n self-healing

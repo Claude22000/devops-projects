@@ -6,7 +6,8 @@
 .terraform.lock.hcl
 
 # Kubernetes
-k8s/
+k8s/helm
+k8s/kustomization.yaml
 
 # Sonarqube secrets
 sonarqube/dev/sonarqube_key.pem
@@ -21,6 +22,10 @@ github-runners-aws/github-runners-ansible-aws/terraform/modules/github-runner/gi
 github-runners-aws/github-runners-ansible-aws/terraform/modules/github-runner/github_runner_key.pub
 github-runners-aws/github-runners-ansible-aws/terraform/modules/github-runner/.env
 
+
+# eks self healing platform
+eks-self-healing-platform
+k8s
 
 # PEM / SSH Keys
 *.pem
