@@ -2,14 +2,30 @@ name: Deploy simulation
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - feature/github-runners
 
 jobs:
-  test:
+  build:
     runs-on: standard
 
     steps:
       - name: Checkout repo
         uses: actions/checkout@v4
         with:
-          ref: main
+          ref: feature/github-runners
           path: emr-simulation
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.ECR_IAM_ROLE }}
+          aws-region: ${{ secrets.ECR_REGION }}
+
+      - name: Build Docker image
+        run: |
+          docker build \
+            -t {{ secrets.ECR_REPO_URI}}:${{ github.sha }} \
+            -t {{ secrets.ECR_REPO_URI}}:latest \
+            -f emr-simulation/back-end/Dockerfile 
