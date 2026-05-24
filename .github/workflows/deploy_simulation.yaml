@@ -39,31 +39,31 @@ jobs:
           docker push ${{ secrets.ECR_REPO_URI }}:${{ github.sha }}
           docker push ${{ secrets.ECR_REPO_URI }}:latest
 
-      test:
-        runs-on: standard
-        needs: build
+  test:
+    runs-on: standard
+    needs: build
 
-        steps:
-          - name: Checkout repo
-            uses: actions/checkout@v4
-            with:
-              ref: feature/github-runners
-              path: emr-simulation
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          ref: feature/github-runners
+          path: emr-simulation
 
-          - name: Activate virtual environment 
-            run: |
-              cd emr-simulation/back-end
-              python -m venv .venv
-              source .venv/bin/activate
-          
-          - name: Install dependencies
-            run: |
-              cd emr-simulation/back-end
-              source .venv/bin/activate
-              pip install -r requirements.txt
+      - name: Activate virtual environment 
+        run: |
+          cd emr-simulation/back-end
+          python -m venv .venv
+          source .venv/bin/activate
+      
+      - name: Install dependencies
+        run: |
+          cd emr-simulation/back-end
+          source .venv/bin/activate
+          pip install -r requirements.txt
 
-          - name: Run simulation
-            run: |
-              cd emr-simulation/back-end
-              source .venv/bin/activate
-              python manage.py runserver
+      - name: Run simulation
+        run: |
+          cd emr-simulation/back-end
+          source .venv/bin/activate
+          python manage.py runserver
