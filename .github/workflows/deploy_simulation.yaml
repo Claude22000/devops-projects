@@ -32,7 +32,7 @@ jobs:
           docker build \
             -t {{ secrets.ECR_REPO_URI}}:${{ github.sha }} \
             -t {{ secrets.ECR_REPO_URI}}:latest \
-            -f emr-simulation/back-end/Dockerfile 
+            -f emr-simulation/back-end/Dockerfile \
             emr-simulation/back-end
 
       - name: Push image to ECR
