@@ -26,6 +26,11 @@ jobs:
         with:
           role-to-assume: ${{ secrets.ECR_IAM_ROLE }}
           aws-region: ${{ secrets.ECR_REGION }}
+      
+      - name: Debug directories
+        run: |
+          ls -la emr-simulation
+          ls -la emr-simulation/back-end
 
       - name: Build Docker image
         run: |
