@@ -45,8 +45,7 @@ jobs:
           docker push ${{ secrets.ECR_REPO_URI }}:latest
 
   test:
-    runs-on: standard
-    needs: build
+    runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repo
