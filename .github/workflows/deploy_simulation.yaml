@@ -34,15 +34,15 @@ jobs:
       - name: Build Docker image
         run: |
           docker build \
-            -t ${{ secrets.ECR_REPO_URI}}:${{ github.sha }} \
-            -t ${{ secrets.ECR_REPO_URI}}:latest \
+            -t ${{ secrets.ECR_REPO_URI}}:api-${{ github.sha }} \
+            -t ${{ secrets.ECR_REPO_URI}}:api-latest \
             -f emr-simulation/back-end/Dockerfile \
             emr-simulation/back-end
 
       - name: Push image to ECR
         run: |
-          docker push ${{ secrets.ECR_REPO_URI }}:${{ github.sha }}
-          docker push ${{ secrets.ECR_REPO_URI }}:latest
+          docker push ${{ secrets.ECR_REPO_URI }}:api-${{ github.sha }}
+          docker push ${{ secrets.ECR_REPO_URI }}:api-latest
 
   test:
     runs-on: ubuntu-latest
@@ -63,3 +63,23 @@ jobs:
           cd emr-simulation/back-end/
           python -m simulation.run_simulation
 
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [test, build]
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          ref: feature/github-runners
+
+      - name: Configure AWS credentials (OIDC)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.ECR_IAM_ROLE }}
+          aws-region: ${{ secrets.ECR_REGION }}
+
+      - name: Deploy to AWS (ECS, EKS, etc.)
+        run: |
+          # Add your deployment commands here, e.g., using AWS CLI or SDK to deploy the Docker image
+          echo "Deploying to AWS..."
