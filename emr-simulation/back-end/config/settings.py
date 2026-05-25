@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,13 +21,13 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-jiwbf+nd-0(gsg0qw$!pnlo$)$+nrten!c+jm&i^#58#8fl74o'
+SECRET_KEY = os.environ.get("DJANGO_SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# loadbalancer service external dns name
-ALLOWED_HOSTS = ["*"]
+# point to k8s service load balancer
+ALLOWED_HOSTS = ["k8s-default-apiservi-9f08301a3c-6667716da07c8f59.elb.us-east-1.amazonaws.com"]
 
 
 # Application definition
