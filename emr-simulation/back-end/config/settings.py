@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-jiwbf+nd-0(gsg0qw$!pnlo$)$+nrten!c+jm&i^#58#8fl74o
 DEBUG = True
 
 # loadbalancer service external dns name
-ALLOWED_HOSTS = ["abe8272cbd7bd47b194141c403912587-1946272815.us-east-1.elb.amazonaws.com"]
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
