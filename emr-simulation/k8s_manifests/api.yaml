@@ -18,5 +18,7 @@ spec:
       - name: api
         image: 676005808259.dkr.ecr.us-east-1.amazonaws.com/devops-training:api-latest
         imagePullPolicy: Always
+        command: ["python"]
+        args: ["manage.py", "runserver", "0.0.0.0:8000"]
         ports:
         - containerPort: 8000
